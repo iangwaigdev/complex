@@ -24,7 +24,7 @@
     },
     {
       "name": "nginx",
-      "image": "iangwaigdev/complex-nignx",
+      "image": "iangwaigdev/complex-nginx",
       "hostname": "nginx",
       "essential": true,
       "memory": 128,
