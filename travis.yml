@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t iangwaigdev/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run iangwaigdev/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t iangwaigdev/complex-client ./client
+  - docker build -t iangwaigdev/complex-nginx ./nginx
+  - docker build -t iangwaigdev/complex-server ./server
+  - docker build -t stephengrider/complex-worker ./worker
+  #log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #push images to docker hub
+  - docker push iangwaigdev/complex-client
+  - docker push iangwaigdev/complex-nginx
+  - docker push iangwaigdev/complex-server
+  - docker push iangwaigdev/complex-worker
